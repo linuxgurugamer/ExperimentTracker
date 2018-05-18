@@ -1,0 +1,5 @@
+1.3.2
+	Adoption by Linuxgurugamer
+	Added support for the ClickThroughBlocker
+	Added support for the ToolbarController
+	Added 24x24 icons

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <bool name="expGUI">0</bool>
+    <int name="expListRectX">0</int>
+    <int name="expListRectY">0</int>
+    <bool name="infGUI">0</bool>
+    <int name="infRectX">0</int>
+    <int name="infRectY">0</int>
+</config>

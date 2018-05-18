@@ -1,0 +1,30 @@
+{
+  "NAME": "ExperimentTracker",
+  "URL": "https://raw.githubusercontent.com/linuxgurugamer/ExperimentTracker/master/ExperimentTracker.version",
+  "DOWNLOAD": "https://github.com/linuxgurugamer/ExperimentTracker/releases",
+  "GITHUB": {
+    "USERNAME": "linuxgurugamer",
+    "REPOSITORY": "ExperimentTracker"
+  },
+  "VERSION": {
+    "MAJOR": 1,
+    "MINOR": 3,
+    "PATCH": 2,
+    "BUILD": 0
+  },
+  "KSP_VERSION": {
+    "MAJOR": 1,
+    "MINOR": 4,
+    "PATCH": 1
+  },
+  "KSP_VERSION_MIN": {
+    "MAJOR": 1,
+    "MINOR": 4,
+    "PATCH": 1
+  },
+  "KSP_VERSION_MAX": {
+    "MAJOR": 1,
+    "MINOR": 4,
+    "PATCH": 99
+  }
+}
