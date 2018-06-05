@@ -44,6 +44,57 @@ namespace ExperimentTracker
         private Rect expListRect = new Rect(0, 0, windowWidth, windowHeight);
         private Rect infRect = new Rect(0, 0, windowWidth, windowHeight);
 
+        private string[] excludedExperiments = null;
+       // private string[] excludedManufacturers = null;
+
+        public void ModuleManagerPostLoad()
+        {
+            if (excludedExperiments == null)
+            {
+                List<string> expList = new List<string>();
+                ConfigNode[] excludedNode = GameDatabase.Instance.GetConfigNodes("KEI_EXCLUDED_EXPERIMENTS");
+
+                if (excludedNode != null)
+                {
+                    for (int i = excludedNode.Length - 1; i >= 0; i--)
+                    {
+                        string[] types = excludedNode[i].GetValues("experiment");
+                        expList.AddRange(types);
+                    }
+                }
+                else
+                    Log.Error("Missing config file");
+
+                excludedExperiments = expList.ToArray();
+
+                foreach (var s in excludedExperiments)
+                    Log.Info("Excluded experiment: " + s);
+
+            }
+#if false
+            if (excludedManufacturers == null)
+            {
+                List<string> expList = new List<string>();
+                ConfigNode[] excludedNode = GameDatabase.Instance.GetConfigNodes("KEI_EXCLUDED_MANUFACTURERS");
+                if (excludedNode != null)
+                {
+                    for (int i = excludedNode.Length - 1; i >= 0; i--)
+                    {
+                        string[] types = excludedNode[i].GetValues("manufacturer");
+                        expList.AddRange(types);
+                    }
+                }
+                else
+                    Log.Error("Missing config file");
+
+                excludedManufacturers = expList.ToArray();
+
+                foreach (var s in excludedManufacturers)
+                    Log.Info("Excluded manufacturer: " + s);
+            }
+#endif
+        }
+
         private void OnGUI()
         {
             if (!hideUI)
@@ -97,13 +148,13 @@ namespace ExperimentTracker
                 if (hasPoss)
                     if (GUILayout.Button("Deploy all"))
                         foreach (ModuleScienceExperiment e in possExperiments)
-                            deploy(e);
+                            Deploy(e);
                 GUILayout.Space(6);
                 if (hasPoss)
                 {
                     foreach (ModuleScienceExperiment e in possExperiments)
                         if (GUILayout.Button(e.experimentActionName))
-                            deploy(e);
+                            Deploy(e);
                 }
                 else
                 {
@@ -124,11 +175,11 @@ namespace ExperimentTracker
                         {
                             if (Event.current.button == 0)
                             {
-                                review(e);
+                                Review(e);
                             }
                             else if (Event.current.button == 1)
                             {
-                                reset(e);
+                                Reset(e);
                             }
                         }
                     }
@@ -187,7 +238,7 @@ namespace ExperimentTracker
         }
 
         /** Deploys an experiment */
-        private void deploy(ModuleScienceExperiment exp)
+        private void Deploy(ModuleScienceExperiment exp)
         {
             IETExperiment activator = checkType(exp);
             if (activator != null)
@@ -195,7 +246,7 @@ namespace ExperimentTracker
         }
 
         /** Resets an experiment */
-        private void reset(ModuleScienceExperiment exp)
+        private void Reset(ModuleScienceExperiment exp)
         {
             IETExperiment activator = checkType(exp);
             if (activator != null)
@@ -203,7 +254,7 @@ namespace ExperimentTracker
         }
 
         /** Opens the reviewData dialog for an experiment */
-        private void review(ModuleScienceExperiment exp)
+        private void Review(ModuleScienceExperiment exp)
         {
             IETExperiment activator = checkType(exp);
             if (activator != null)
@@ -211,7 +262,7 @@ namespace ExperimentTracker
         }
 
         /** Updates experiments and other fields */
-        private void statusUpdate()
+        private void StatusUpdate()
         {
             timeSince = 0f;
             curVessel = FlightGlobals.ActiveVessel;
@@ -246,7 +297,7 @@ namespace ExperimentTracker
         public void FixedUpdate()
         {
             if (statusHasChanged() || timeIsUp())
-                statusUpdate();
+                StatusUpdate();
             if (possExperiments.Count > 0 && toolbarControl != null && !expGUI)
                 toolbarControl.SetTexture(onReady + "-38", onReady + "-24");
             else if (toolbarControl != null)
@@ -268,7 +319,16 @@ namespace ExperimentTracker
         /** Gets all science experiments */
         private List<ModuleScienceExperiment> getExperiments()
         {
-            return FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>();
+            List<ModuleScienceExperiment> experiments = new List<ModuleScienceExperiment>();
+
+            var l = FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>();
+            foreach (var i in l)
+            {
+                if (i.experimentID != "" && !excludedExperiments.Contains(i.experimentID))
+                    experiments.Add(i);
+            }
+            return experiments;
+            //return FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>();
         }
 
         /** Resets window positions if necessary */
@@ -323,6 +383,8 @@ namespace ExperimentTracker
             activators = new List<IETExperiment>();
             activators.Add(new OrbitalScience());
             activators.Add(new StockScience()); // This MUST be the last one
+
+            ModuleManagerPostLoad();
         }
 
         /** Called on destroy */
