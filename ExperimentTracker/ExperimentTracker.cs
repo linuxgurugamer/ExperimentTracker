@@ -45,7 +45,7 @@ namespace ExperimentTracker
         private Rect infRect = new Rect(0, 0, windowWidth, windowHeight);
 
         private string[] excludedExperiments = null;
-       // private string[] excludedManufacturers = null;
+       private string[] excludedManufacturers = null;
 
         public void ModuleManagerPostLoad()
         {
@@ -65,13 +65,13 @@ namespace ExperimentTracker
                 else
                     Log.Error("Missing config file");
 
-                excludedExperiments = expList.ToArray();
+                excludedExperiments = expList.Distinct().ToArray();
 
                 foreach (var s in excludedExperiments)
                     Log.Info("Excluded experiment: " + s);
 
             }
-#if false
+
             if (excludedManufacturers == null)
             {
                 List<string> expList = new List<string>();
@@ -87,12 +87,12 @@ namespace ExperimentTracker
                 else
                     Log.Error("Missing config file");
 
-                excludedManufacturers = expList.ToArray();
+                excludedManufacturers = expList.Distinct().ToArray();
 
                 foreach (var s in excludedManufacturers)
                     Log.Info("Excluded manufacturer: " + s);
             }
-#endif
+
         }
 
         private void OnGUI()
@@ -147,14 +147,27 @@ namespace ExperimentTracker
                 GUILayout.BeginVertical();
                 if (hasPoss)
                     if (GUILayout.Button("Deploy all"))
+                    {
+                        List<string> deployed = new List<string>();
                         foreach (ModuleScienceExperiment e in possExperiments)
-                            Deploy(e);
+                        {
+                            if (!deployed.Contains(e.experimentID))
+                            {
+                                Deploy(e);
+                                deployed.Add(e.experimentID);
+                            }
+                        }
+                    }
                 GUILayout.Space(6);
                 if (hasPoss)
-                {
+                { List<string> listed = new List<string>();
                     foreach (ModuleScienceExperiment e in possExperiments)
-                        if (GUILayout.Button(e.experimentActionName))
-                            Deploy(e);
+                        if (!listed.Contains(e.experimentID))
+                        {
+                            if (GUILayout.Button(e.experimentActionName))
+                                Deploy(e);
+                            listed.Add(e.experimentID);
+                        }
                 }
                 else
                 {
@@ -324,7 +337,8 @@ namespace ExperimentTracker
             var l = FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>();
             foreach (var i in l)
             {
-                if (i.experimentID != "" && !excludedExperiments.Contains(i.experimentID))
+                if (i.experimentID != "" && !excludedExperiments.Contains(i.experimentID) &&
+                    !excludedManufacturers.Contains(i.part.partInfo.manufacturer))
                     experiments.Add(i);
             }
             return experiments;

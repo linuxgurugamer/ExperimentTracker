@@ -1,3 +1,8 @@
+1.3.4
+	Added check for manufacturers
+	Added code to remove duplicates from experiment and manuf lists
+	Fixed  bug where multiple identical experiments were both shown in the list and deployed when the DeployAll was clicked
+
 1.3.3
 	Added ability to exclude experiments using a config file
 	Currently using the KEI format since the code is copied from KEI
