@@ -5,7 +5,6 @@ using KSP.UI.Screens;
 using KSP.IO;
 
 using UnityEngine;
-using UnityEngine.UI;
 
 using ClickThroughFix;
 using ToolbarControl_NS;
