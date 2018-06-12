@@ -149,8 +149,9 @@ namespace ExperimentTracker
                     if (GUILayout.Button("Deploy all"))
                     {
                         List<string> deployed = new List<string>();
-                        foreach (ModuleScienceExperiment e in possExperiments)
+                        for (int i = possExperiments.Count - 1; i >= 0; i--)
                         {
+                            ModuleScienceExperiment e = possExperiments[i];
                             if (!deployed.Contains(e.experimentID))
                             {
                                 Deploy(e);
@@ -160,14 +161,18 @@ namespace ExperimentTracker
                     }
                 GUILayout.Space(6);
                 if (hasPoss)
-                { List<string> listed = new List<string>();
-                    foreach (ModuleScienceExperiment e in possExperiments)
+                {
+                    List<string> listed = new List<string>();
+                    for (int i = possExperiments.Count - 1; i >= 0; i--)
+                    {
+                        ModuleScienceExperiment e = possExperiments[i];
                         if (!listed.Contains(e.experimentID))
                         {
                             if (GUILayout.Button(e.experimentActionName))
                                 Deploy(e);
                             listed.Add(e.experimentID);
                         }
+                    }
                 }
                 else
                 {
@@ -182,8 +187,9 @@ namespace ExperimentTracker
                 if (showFin && hasFin)
                 {
                     GUILayout.Space(6);
-                    foreach (ModuleScienceExperiment e in finishedExperiments)
+                    for (int i = finishedExperiments.Count - 1; i >=0; i--)
                     {
+                        ModuleScienceExperiment e = finishedExperiments[i];
                         if (GUILayout.Button(e.experimentActionName))
                         {
                             if (Event.current.button == 0)
@@ -235,8 +241,9 @@ namespace ExperimentTracker
         /** Checks type for an experiment and returns suitable IETExperiment */
         private IETExperiment checkType(ModuleScienceExperiment exp)
         {
-            foreach (IETExperiment act in activators)
+            for (int i = activators.Count - 1; i >= 0; i--)
             {
+                IETExperiment act = activators[i];
                 try
                 {
                     if (exp.GetType() == act.getType() || exp.GetType().IsSubclassOf(act.getType()))
@@ -288,8 +295,10 @@ namespace ExperimentTracker
             IETExperiment activator;
             if (experiments.Count() > 0)
             {
-                foreach (ModuleScienceExperiment exp in experiments)
+                for (int i = experiments.Count - 1; i >= 0; i--)
                 {
+                    ModuleScienceExperiment exp = experiments[i];
+
                     activator = checkType(exp);
                     if (activator != null)
                     {
@@ -335,11 +344,14 @@ namespace ExperimentTracker
             List<ModuleScienceExperiment> experiments = new List<ModuleScienceExperiment>();
 
             var l = FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>();
-            foreach (var i in l)
+
+            for (int i = l.Count - 1; i >=0; i--)
             {
-                if (i.experimentID != "" && !excludedExperiments.Contains(i.experimentID) &&
-                    !excludedManufacturers.Contains(i.part.partInfo.manufacturer))
-                    experiments.Add(i);
+                var ex = l[i];
+                if (ex.experimentID != "" && !excludedExperiments.Contains(ex.experimentID) &&
+                    !excludedManufacturers.Contains(ex.part.partInfo.manufacturer))
+                                    experiments.Add(ex);
+
             }
             return experiments;
             //return FlightGlobals.ActiveVessel.FindPartModulesImplementing<ModuleScienceExperiment>();
