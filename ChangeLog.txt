@@ -1,5 +1,7 @@
 1.3.4.2
 	Version bump for 1.5 rebuild
+	Moved ModuleManager configs into new folder
+	Added contributed file from @Gordon Dry to fix biomemasks and situation masks
 
 1.3.4.1
 	Replaced "foreach" with "for int" statements for optimizations
