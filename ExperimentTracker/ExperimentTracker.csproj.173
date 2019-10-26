@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExperimentTracker</RootNamespace>
     <AssemblyName>ExperimentTracker</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -20,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,26 +28,24 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\Assembly*.dll">
-      <Private>False</Private>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>R:\KSP_1.7.3_dev\KSP_x64_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\UnityEngine*.dll">
-      <Private>False</Private>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>R:\KSP_1.7.3_dev\KSP_x64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
     <Reference Include="ClickThroughBlocker, Version=0.1.6.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(KSPDIR)\GameData\000_ClickThroughBlocker\Plugins\ClickThroughBlocker.dll</HintPath>
+      <HintPath>R:\KSP_1.7.3_dev\GameData\000_ClickThroughBlocker\Plugins\ClickThroughBlocker.dll</HintPath>
     </Reference>
     <Reference Include="DMagic, Version=1.3.0.12, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(KSPDIR)\GameData\DMagicOrbitalScience\Plugins\DMagic.dll</HintPath>
+      <HintPath>R:\KSP_1.7.3_dev\GameData\DMagicOrbitalScience\Plugins\DMagic.dll</HintPath>
     </Reference>
     <Reference Include="DMModuleScienceAnimateGeneric">
-      <HintPath>$(KSPDIR)\GameData\DMagicScienceAnimate\DMModuleScienceAnimateGeneric.dll</HintPath>
+      <HintPath>R:\KSP_1.7.3_dev\GameData\DMagicScienceAnimate\DMModuleScienceAnimateGeneric.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,7 +54,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="ToolbarControl">
-      <HintPath>$(KSPDIR)\GameData\001_ToolbarControl\Plugins\ToolbarControl.dll</HintPath>
+      <HintPath>R:\KSP_1.7.3_dev\GameData\001_ToolbarControl\Plugins\ToolbarControl.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>R:\KSP_1.7.3_dev\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>R:\KSP_1.7.3_dev\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -68,7 +72,6 @@
     </Compile>
     <Compile Include="ExperimentTracker.cs" />
     <Compile Include="IETExperiment.cs" />
-    <Compile Include="InstallChecker.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="OrbitalScience.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
