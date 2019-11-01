@@ -1,7 +1,6 @@
 ChangeLog
 
-1.3.5.1
-	Update MiniAVC.dll
+
 
 1.3.5
 	Added InstallChecker
