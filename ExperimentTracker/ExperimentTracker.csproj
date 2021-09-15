@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ExperimentTracker</RootNamespace>
     <AssemblyName>ExperimentTracker</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,17 +39,16 @@
     <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\UnityEngine*.dll">
       <Private>False</Private>
     </Reference>
+    <Reference Include="DMagic">
+      <HintPath>R:\KSP_1.12.2_dev\GameData\DMagicOrbitalScience\Plugins\DMagic.dll</HintPath>
+    </Reference>
+    <Reference Include="DMModuleScienceAnimateGeneric">
+      <HintPath>R:\KSP_1.12.2_dev\GameData\DMagicScienceAnimate\DMModuleScienceAnimateGeneric.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="ClickThroughBlocker, Version=0.1.6.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(KSPDIR)\GameData\000_ClickThroughBlocker\Plugins\ClickThroughBlocker.dll</HintPath>
-    </Reference>
-    <Reference Include="DMagic, Version=1.3.0.12, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(KSPDIR)\GameData\DMagicOrbitalScience\Plugins\DMagic.dll</HintPath>
-    </Reference>
-    <Reference Include="DMModuleScienceAnimateGeneric">
-      <HintPath>$(KSPDIR)\GameData\DMagicScienceAnimate\DMModuleScienceAnimateGeneric.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -88,18 +88,32 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-start /D D:\Users\jbb\github\ExperimentTracker /WAIT deploy.bat  $(TargetDir) $(TargetFileName)
+set KSPDIR=$(KSPDIR)
 
-if $(ConfigurationName) == Release (
-	start /D D:\Users\jbb\github\ExperimentTracker /WAIT buildRelease.bat $(TargetDir) $(TargetFileName)
+IF "%25KSPDIR%25"=="" (
+
+	ECHO Configuration error - KSPDIR not specified in project.
+
+	ECHO Either set KSPDIR environment variable or edit BetterLoadSaveGame.Common.props
+
+	PAUSE
+
+	GOTO DONE
+
+)
+
+start /D $(SolutionDir) /WAIT deploy.bat  $(TargetDir) $(TargetFileName) $(TargetName)
+
+if $(ConfigurationName) == Release (	
+
+	start /D $(SolutionDir) /WAIT buildRelease.bat $(TargetDir) $(TargetFileName) $(TargetName)
+
 )
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
-set textTemplatingPath="%25ProgramFiles(x86)%25\Microsoft Visual Studio\2017\Community\Common7\IDE\texttransform.exe"
-
-%25textTemplatingPath%25 "$(ProjectDir)AssemblyVersion.tt"
+"$(DevEnvDir)\texttransform.exe" "$(ProjectDir)AssemblyVersion.tt"
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
