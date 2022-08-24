@@ -1,5 +1,7 @@
 ChangeLog
 
+1.3.5.2
+	Fixed small memory leak
 
 1.3.5.1
 	Added AssemblyFileVersion

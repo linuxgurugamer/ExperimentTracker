@@ -436,6 +436,9 @@ namespace ExperimentTracker
             if (etButton != null)
                 ApplicationLauncher.Instance.RemoveModApplication(etButton);
 #endif
+            GameEvents.onHideUI.Remove(onHideUI);
+            GameEvents.onShowUI.Remove(onShowUI);
+
             toolbarControl.OnDestroy();
             Destroy(toolbarControl);
         }
