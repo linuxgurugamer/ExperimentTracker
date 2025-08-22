@@ -1,5 +1,9 @@
 ChangeLog
 
+1.3.5.3
+	Disabled line which was adding a biomeMask to everything, this was apparnetly causing experiments to be recorded per biome even for those which are global
+	Updated version file to use github for new versoin info
+
 1.3.5.2
 	Fixed small memory leak
 
